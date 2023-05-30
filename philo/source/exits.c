@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:19:47 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 05:42:20 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/05/30 09:17:51 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	free_table(t_table *table)
 	free(table);
 }
 
-void	error_exit(t_table *table, char *str)
+int	error_msg(t_table *table, char *str, int ret)
 {
 	free_table(table);
 	write(2, str, ft_strlen(str));
-	exit(1);
+	return (ret);
 }

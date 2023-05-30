@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 07:16:31 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/05/30 09:17:29 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@
 # include <stdio.h>
 
 
-# define MAX_INT 2147483647
-# define MIN_INT -2147483648
+# define MAX_PHILOSOPHERS 255
 
 # define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
 <time_to_die> <time_to_eat> <time_to_sleep> \
-[number_of_times_each_philosopher_must_eat]\n"
+[number_of_times_each_philosopher_must_eat]\n\
+number_of_philosophers: An integer between 1 and 1024.\n\
+time_to_die: An integer between 0 and 2147483647.\n\
+time_to_eat: An integer between 0 and 2147483647.\n\
+time_to_sleep: An integer between 0 and 2147483647.\n\
+number_of_times_each_philosopher_must_eat: An integer between 0 \
+and 2147483647. (Optional)\n"
+
 
 typedef struct s_philo
 {
@@ -49,12 +55,12 @@ typedef struct s_table
 
 // 2_parse_args.c
 t_table	*parse_args(int argc, char **argv);
-
+int		valid_args(int argc, char **argv);
 
 
 // exits.c
-void	error_exit(t_table *table, char *str);
 void	free_table(t_table *table);
+int		error_msg(t_table *table, char *str, int ret);
 
 // utils.c
 int		ft_strlen(char *s);

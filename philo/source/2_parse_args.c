@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:22:01 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 07:09:31 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/05/30 09:14:09 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,50 +17,63 @@ static int	ft_isdigit(int c)
 	return ('0' <= c && c <= '9');
 }
 
-static long	ft_atol(char *str, t_table *table)
+static long	philo_atol(char *str)
 {
 	long	i;
 	long	n;
-	long	s;
 
 	i = 0;
 	n = 0;
-	s = 1;
 	while ((9 <= str[i] && str[i] <= 13) || str[i] == '\n' || str[i] == ' ')
 		i++;
-	if (str[i] == '-' || str[i] == '+')
-		if (str[i++] == '-')
-			s = -1;
+	if (str[i] != '\0' && str[i] == '-')
+		return (error_msg(NULL, "Error: Invalid argument, negative number\n", -1));
+	if (str[i] != '\0' && str[i] == '+')
+		i++;
 	while (ft_isdigit(str[i]))
 	{
 		n = n * 10 + str[i] - '0';
-		if (n * s < MIN_INT || n * s > MAX_INT)
-			error_exit(table, "Error: Argument out of range\n");
+		if (n > INT_MAX)
+			return (error_msg(NULL, "Error: Invalid argument, number too big\n", -1));
 		i++;
 	}
 	if (str[i] != '\0' || (i && !ft_isdigit(str[i - 1])))
-		error_exit(table, "Error: Argument is not a number\n");
-	if (n * s < 0)
-		error_exit(table, "Error: Argument is negative\n");
-	return (n * s);
+		error_exit(NULL, "Error: Invalid argument, not a number\n", -1);
+	return (n);
 }
 
 t_table	*parse_args(int argc, char **argv)
 {
 	t_table	*table;
 
-	if (argc < 5 || argc > 6)
-		error_exit(NULL, STR_USAGE);
 	table = malloc(sizeof(t_table));
 	if (!table)
-		return (NULL);
-	table->num_philos = ft_atol(argv[1], table);
-	table->time_to_die = ft_atol(argv[2], table);
-	table->time_to_eat = ft_atol(argv[3], table);
-	table->time_to_sleep = ft_atol(argv[4], table);
+		return (error_msg(table, "Error: Malloc failed\n", NULL));
+	table->num_philos = philo_atol(argv[1]);
+	table->time_to_die = philo_atol(argv[2]);
+	table->time_to_eat = philo_atol(argv[3]);
+	table->time_to_sleep = philo_atol(argv[4]);
 	if (argc == 6)
-		table->must_eat_cnt = ft_atol(argv[5], table);
+		table->must_eat_cnt = philo_atol(argv[5]);
 	else
 		table->must_eat_cnt = -1;
 	return (table);
+}
+
+int	valid_args(int argc, char **argv)
+{
+	long	ans;
+	int		i;
+
+	i = 1;
+	while (i < argc)
+	{
+		ans = philo_atol(argv[i]);
+		if (i == 1 && (ans == 0 || ans > MAX_PHILOSOPHERS))
+			return (error_msg(NULL, "Error: Invalid number of philosophers\n", 0));
+		if (ans < 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
