@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 02:13:34 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/05/30 05:41:10 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdio.h>
+
+# define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
+<time_to_die> <time_to_eat> <time_to_sleep> \
+[number_of_times_each_philosopher_must_eat]\n"
 
 typedef struct s_philo
 {
@@ -38,5 +42,12 @@ typedef struct s_table
 	long	start_time;
 }	t_table;
 
+// 2_parse_args.c
+t_table	*parse_args(int argc, char **argv);
+
+
+
+// exits.c
+void	error_exit(t_table *table, char *str);
 
 #endif
