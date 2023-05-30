@@ -1,22 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1_main.c                                           :+:      :+:    :+:   */
+/*   2_parse_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 05:21:25 by lfiorini         ###   ########.fr       */
+/*   Created: 2023/05/30 05:22:01 by lfiorini          #+#    #+#             */
+/*   Updated: 2023/05/30 05:22:24 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	main(int argc, char **argv)
-{
-	t_table	*table;
-
-	table = parse_args(argc, argv);
-	
-	return (0);
-}
