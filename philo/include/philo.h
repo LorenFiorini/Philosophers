@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 06:16:09 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/05/30 07:16:31 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
 
@@ -24,8 +25,6 @@
 # define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
 <time_to_die> <time_to_eat> <time_to_sleep> \
 [number_of_times_each_philosopher_must_eat]\n"
-
-
 
 typedef struct s_philo
 {
@@ -44,7 +43,7 @@ typedef struct s_table
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
-	long	must_eat_count;
+	long	must_eat_cnt;
 	long	start_time;
 }	t_table;
 
@@ -56,5 +55,8 @@ t_table	*parse_args(int argc, char **argv);
 // exits.c
 void	error_exit(t_table *table, char *str);
 void	free_table(t_table *table);
+
+// utils.c
+int		ft_strlen(char *s);
 
 #endif
