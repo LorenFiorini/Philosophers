@@ -6,7 +6,7 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/05/30 02:24:31 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/05/30 06:17:36 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CC		= cc
 CFLAGS	= -Werror -Wall -Wextra -pthread
 INC		= -I ./includes/
 
-FILE	= 1_main
+FILE	= 1_main \
+		  2_parse_args \
+		  exits
 
 SRC_DIR = ./sources/
 OBJ_DIR = ./objects/
