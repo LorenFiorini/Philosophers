@@ -6,7 +6,7 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/05/30 07:21:22 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/06/01 01:52:28 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,10 @@ OBJS			= $(addprefix ${OBJ_DIR}, $(addsuffix .o, $(FILES)))
 all:			$(NAME)
 
 $(OBJ_DIR)%.o:	${SRC_DIR}%.c
-				@mkdir -p $(dir $@)
 				$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME):
+				mkdir -p $(OBJ_DIR)
 				$(MAKE) $(OBJS)
 				$(CC) $(CFLAGS) $(INC) $(OBJS) -o $(NAME)
 

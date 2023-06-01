@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:19:47 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 09:17:51 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/01 03:22:32 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 
 void	free_table(t_table *table)
 {
+	long	i;
+
 	if (!table)
 		return ;
-
+	i = 0;
+	while (i < table->num_philos)
+	{
+		free(table->philos[i]);
+		i++;
+	}
 	free(table);
 }
 

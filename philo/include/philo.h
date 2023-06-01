@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 09:17:29 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/01 03:44:09 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,24 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	long	num_philos;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	must_eat_cnt;
-	long	start_time;
+	long			num_philos;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			must_eat_cnt;
+	long			start_time;
+	t_philo			**philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	write_lock;
+	pthread_mutex_t	stop_sim_lock;
 }	t_table;
 
 // 2_parse_args.c
-t_table	*parse_args(int argc, char **argv);
+void	parse_args(int argc, char **argv, t_table *table);
 int		valid_args(int argc, char **argv);
 
+// 3_init.c
+int		init(t_table *table);
 
 // exits.c
 void	free_table(t_table *table);

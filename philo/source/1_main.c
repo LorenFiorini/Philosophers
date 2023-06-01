@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 08:43:18 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/01 03:16:23 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ int	main(int argc, char **argv)
 {
 	t_table	*table;
 
-	if (argc < 5 || argc > 6 || !valid_args(argc, argv))
+	if (!valid_args(argc, argv))
 		return (error_msg(NULL, STR_USAGE, 1));
-	table = parse_args(argc, argv);
+	table = malloc(sizeof(t_table));
 	if (!table)
-		return (1);
-	
+		return error_msg(table, "Error: Malloc failed\n", 1);
+	parse_args(argc, argv, table);
+	if (!init(table))
+		return (error_msg(table, "Error: Malloc failed\n", 1));
+
 	return (0);
 }

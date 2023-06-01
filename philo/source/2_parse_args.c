@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:22:01 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/05/30 09:14:09 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/01 02:00:46 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,17 @@ static long	philo_atol(char *str)
 	while (ft_isdigit(str[i]))
 	{
 		n = n * 10 + str[i] - '0';
-		if (n > INT_MAX)
+		if (n > MAX_PHILOSOPHERS)
 			return (error_msg(NULL, "Error: Invalid argument, number too big\n", -1));
 		i++;
 	}
 	if (str[i] != '\0' || (i && !ft_isdigit(str[i - 1])))
-		error_exit(NULL, "Error: Invalid argument, not a number\n", -1);
+		error_msg(NULL, "Error: Invalid argument, not a number\n", -1);
 	return (n);
 }
 
-t_table	*parse_args(int argc, char **argv)
+void parse_args(int argc, char **argv, t_table *table)
 {
-	t_table	*table;
-
-	table = malloc(sizeof(t_table));
-	if (!table)
-		return (error_msg(table, "Error: Malloc failed\n", NULL));
 	table->num_philos = philo_atol(argv[1]);
 	table->time_to_die = philo_atol(argv[2]);
 	table->time_to_eat = philo_atol(argv[3]);
@@ -57,7 +52,6 @@ t_table	*parse_args(int argc, char **argv)
 		table->must_eat_cnt = philo_atol(argv[5]);
 	else
 		table->must_eat_cnt = -1;
-	return (table);
 }
 
 int	valid_args(int argc, char **argv)
@@ -66,6 +60,8 @@ int	valid_args(int argc, char **argv)
 	int		i;
 
 	i = 1;
+	if (argc < 5 || argc > 6)
+		return (error_msg(NULL, "Error: Invalid number of arguments\n", 0));
 	while (i < argc)
 	{
 		ans = philo_atol(argv[i]);
