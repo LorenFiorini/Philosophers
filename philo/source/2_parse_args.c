@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:22:01 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/01 02:00:46 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/05 02:16:37 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ static long	philo_atol(char *str)
 	while ((9 <= str[i] && str[i] <= 13) || str[i] == '\n' || str[i] == ' ')
 		i++;
 	if (str[i] != '\0' && str[i] == '-')
-		return (error_msg(NULL, "Error: Invalid argument, negative number\n", -1));
+		return (error_msg(NULL, "Error: Invalid argument,\
+		 negative number\n", -1));
 	if (str[i] != '\0' && str[i] == '+')
 		i++;
 	while (ft_isdigit(str[i]))
 	{
 		n = n * 10 + str[i] - '0';
 		if (n > MAX_PHILOSOPHERS)
-			return (error_msg(NULL, "Error: Invalid argument, number too big\n", -1));
+			return (error_msg(NULL, "Error: Invalid argument,\
+			 number too big\n", -1));
 		i++;
 	}
 	if (str[i] != '\0' || (i && !ft_isdigit(str[i - 1])))
@@ -42,7 +44,7 @@ static long	philo_atol(char *str)
 	return (n);
 }
 
-void parse_args(int argc, char **argv, t_table *table)
+void	parse_args(int argc, char **argv, t_table *table)
 {
 	table->num_philos = philo_atol(argv[1]);
 	table->time_to_die = philo_atol(argv[2]);
@@ -66,7 +68,8 @@ int	valid_args(int argc, char **argv)
 	{
 		ans = philo_atol(argv[i]);
 		if (i == 1 && (ans == 0 || ans > MAX_PHILOSOPHERS))
-			return (error_msg(NULL, "Error: Invalid number of philosophers\n", 0));
+			return (error_msg(NULL, "Error:\
+			Invalid number of philosophers\n", 0));
 		if (ans < 0)
 			return (0);
 		i++;

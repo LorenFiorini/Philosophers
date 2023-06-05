@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/01 03:44:09 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/05 02:13:10 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,17 @@
 # include <unistd.h>
 # include <stdio.h>
 
-
 # define MAX_PHILOSOPHERS 255
 
 # define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
 <time_to_die> <time_to_eat> <time_to_sleep> \
 [number_of_times_each_philosopher_must_eat]\n\
-number_of_philosophers: An integer between 1 and 1024.\n\
-time_to_die: An integer between 0 and 2147483647.\n\
-time_to_eat: An integer between 0 and 2147483647.\n\
-time_to_sleep: An integer between 0 and 2147483647.\n\
-number_of_times_each_philosopher_must_eat: An integer between 0 \
+\tnumber_of_philosophers: An integer between 1 and 1024.\n\
+\ttime_to_die: An integer between 0 and 2147483647.\n\
+\ttime_to_eat: An integer between 0 and 2147483647.\n\
+\ttime_to_sleep: An integer between 0 and 2147483647.\n\
+\tnumber_of_times_each_philosopher_must_eat: An integer between 0 \
 and 2147483647. (Optional)\n"
-
 
 typedef struct s_philo
 {
@@ -51,8 +49,9 @@ typedef struct s_table
 	long			time_to_sleep;
 	long			must_eat_cnt;
 	long			start_time;
+	long			stop_sim;
 	t_philo			**philos;
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	*fork_locks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	stop_sim_lock;
 }	t_table;

@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 03:06:17 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/01 04:05:31 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/05 02:13:53 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	init_philosophers(t_table *table)
 	long	i;
 
 	table->philos = malloc(sizeof(t_philo) * table->num_philos);
-	if (!philos)
+	if (!table->philos)
 		return (error_msg(table, "Error: malloc failed", 0));
 	i = 0;
 	while (i < table->num_philos)
@@ -32,7 +32,23 @@ static int	init_philosophers(t_table *table)
 		table->philos[i]->table = table;
 		table->philos[i]->fork[0] = i;
 		table->philos[i]->fork[1] = (i + 1) % table->num_philos;
+		i++;
+	}
+	return (1);
+}
 
+static int	init_forks(t_table *table)
+{
+	long	i;
+
+	table->fork_locks = malloc(sizeof(pthread_mutex_t) * table->num_philos);
+	if (!table->fork_locks)
+		return (error_msg(table, "Error: malloc failed", 0));
+	i = 0;
+	while (i < table->num_philos)
+	{
+		if (pthread_mutex_init(&table->fork_locks[i], NULL) != 0)
+			return (error_msg(table, "Error: mutex init failed", 0));
 		i++;
 	}
 	return (1);
@@ -42,6 +58,11 @@ int	init(t_table *table)
 {
 	if (!init_philosophers(table))
 		return (0);
-	
+	if (!init_forks(table))
+		return (0);
+	if (pthread_mutex_init(&table->write_lock, NULL) != 0
+		|| pthread_mutex_init(&table->stop_sim_lock, NULL) != 0)
+		return (error_msg(table, "Error: mutex init failed", 0));
+	table->stop_sim = 0;
 	return (1);
 }

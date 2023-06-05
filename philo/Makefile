@@ -6,7 +6,7 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/06/01 01:52:28 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/06/05 00:54:26 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ INC				= -I./include/
 
 FILES			= 1_main\
 				  2_parse_args\
+				  3_init_philo\
 				  exits\
 				  utils
 
