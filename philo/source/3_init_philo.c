@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 03:06:17 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/05 02:13:53 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/05 04:04:46 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	init(t_table *table)
 	if (pthread_mutex_init(&table->write_lock, NULL) != 0
 		|| pthread_mutex_init(&table->stop_sim_lock, NULL) != 0)
 		return (error_msg(table, "Error: mutex init failed", 0));
+	table->start_time = get_time_ms();
 	table->stop_sim = 0;
 	return (1);
 }

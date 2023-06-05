@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/05 02:13:10 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/05 03:56:52 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-
+# include <sys/time.h>
 # define MAX_PHILOSOPHERS 255
 
 # define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
@@ -69,5 +69,6 @@ int		error_msg(t_table *table, char *str, int ret);
 
 // utils.c
 int		ft_strlen(char *s);
+long	get_time_ms(void);
 
 #endif

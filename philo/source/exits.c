@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:19:47 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/01 03:22:32 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/05 04:23:47 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,37 @@ void	free_table(t_table *table)
 
 	if (!table)
 		return ;
+	if (table->fork_locks)
+		free(table->fork_locks);
+	if (table->philos)
+	{
+		i = 0;
+		while (i < table->num_philos)
+		{
+			if (table->philos[i])
+				free(table->philos[i]);
+			i++;
+		}
+		free(table->philos);
+	}
+	free(table);
+}
+
+void	destroy_mutexes(t_table *table)
+{
+	long	i;
+
+	if (!table)
+		return ;
 	i = 0;
 	while (i < table->num_philos)
 	{
-		free(table->philos[i]);
+		pthread_mutex_destroy(&table->fork_locks[i]);
+		pthread_mutex_destroy(&table->philos[i]->meal_time_lock);
 		i++;
 	}
-	free(table);
+	pthread_mutex_destroy(&table->write_lock);
+	pthread_mutex_destroy(&table->stop_sim_lock);
 }
 
 int	error_msg(t_table *table, char *str, int ret)
