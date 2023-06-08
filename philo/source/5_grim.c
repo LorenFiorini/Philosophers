@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:54:04 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/08 07:01:14 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/08 07:03:48 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*grim(void *data)
 	while (1)
 	{
 		if (1)
-			break;
+			break ;
 		usleep(1000);
 	}
 	return (NULL);
