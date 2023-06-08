@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   4_philosopher.c                                    :+:      :+:    :+:   */
+/*   5_grim.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 04:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/08 07:00:45 by lfiorini         ###   ########.fr       */
+/*   Created: 2023/06/08 06:54:04 by lfiorini          #+#    #+#             */
+/*   Updated: 2023/06/08 07:01:14 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philosopher(void *data)
+void	*grim(void *data)
 {
-	t_philo	*philo;
+	t_table	*table;
 
-	philo = (t_philo *)data;
-	if (philo->table->must_eat_cnt == 0)
+	table = (t_table *)data;
+	if (table->must_eat_cnt == 0)
 		return (NULL);
-	pthread_mutex_lock(&philo->meal_time_lock);
-
+	while (1)
+	{
+		if (1)
+			break;
+		usleep(1000);
+	}
 	return (NULL);
 }

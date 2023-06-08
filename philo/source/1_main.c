@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/05 04:24:54 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/08 06:59:23 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ static int	start(t_table *table)
 	long	i;
 
 	i = 0;
-	while (i < table->nb_philos)
+	while (i < table->num_philos)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL,
+		if (pthread_create(&table->philos[i]->thread, NULL,
 				&philosopher, &table->philos[i]) != 0)
 			return (error_msg(table, "Error: Thread creation failed\n", 0));
 		i++;
 	}
 	if (table->num_philos > 1)
 	{
-		if (pthread_create(&table->grim_reaper, NULL,
-				&grim_reaper, table) != 0)
+		if (pthread_create(&table->grim, NULL,
+				&grim, table) != 0)
 			return (error_msg(table, "Error: Thread creation failed\n", 0));
 	}
 	return (1);
@@ -59,13 +59,13 @@ static void	stop(t_table *table)
 	long	i;
 
 	i = 0;
-	while (i < table->nb_philos)
+	while (i < table->num_philos)
 	{
-		pthread_join(table->philos[i].thread, NULL);
+		pthread_join(table->philos[i]->thread, NULL);
 		i++;
 	}
 	if (table->num_philos > 1)
-		pthread_join(table->grim_reaper, NULL);
+		pthread_join(table->grim, NULL);
 	destroy_mutexes(table);
 	free_table(table);
 }

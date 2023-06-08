@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/05 03:56:52 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/06/08 06:59:50 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_table
 	pthread_mutex_t	*fork_locks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	stop_sim_lock;
+	pthread_t		grim;
 }	t_table;
 
 // 2_parse_args.c
@@ -63,8 +64,15 @@ int		valid_args(int argc, char **argv);
 // 3_init.c
 int		init(t_table *table);
 
+// 4_philosopher.c
+void	*philosopher(void *data);
+
+// 5_grim.c
+void	*grim(void *data);
+
 // exits.c
 void	free_table(t_table *table);
+void	destroy_mutexes(t_table *table);
 int		error_msg(t_table *table, char *str, int ret);
 
 // utils.c
