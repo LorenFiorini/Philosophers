@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 17:46:01 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:51:00 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	long			id;
-	long			meals;
+	long			meals_eaten;
 	long			fork[2];
 	long			last_meal;
 	pthread_mutex_t	meal_time_lock;
@@ -76,7 +76,7 @@ void	destroy_mutexes(t_table *table);
 int		error_msg(t_table *table, char *str, int ret);
 
 // status.c
-int	still_alive(t_table *table);
+int		still_alive(t_table *table);
 void	write_status(t_philo *philo, int report, char *status);
 
 // utils.c
@@ -84,5 +84,6 @@ int		ft_strlen(char *s);
 long	ft_max_l(long a, long b);
 long	get_time_ms(void);
 void	sync_start(long start_time);
+void	philo_sleep(t_philo *philo, long sleep_time);
 
 #endif

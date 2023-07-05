@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 03:06:17 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/05 04:04:46 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:49:31 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	init_philosophers(t_table *table)
 		if (pthread_mutex_init(&table->philos[i]->meal_time_lock, NULL) != 0)
 			return (error_msg(table, "Error: mutex init failed", 0));
 		table->philos[i]->id = i;
-		table->philos[i]->meals = 0;
+		table->philos[i]->meals_eaten = 0;
 		table->philos[i]->table = table;
 		table->philos[i]->fork[0] = i;
 		table->philos[i]->fork[1] = (i + 1) % table->num_philos;

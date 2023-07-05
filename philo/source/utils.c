@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 07:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 17:30:32 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:37:21 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ void	sync_start(long start_time)
 {
 	while (get_time_ms() < start_time)
 		continue ;
+}
+
+void	philo_sleep(t_philo *philo, long sleep_time)
+{
+	long	wake_up;
+
+	wake_up = get_time_ms() + sleep_time;
+	while (get_time_ms() < wake_up)
+	{
+		if (!still_alive(philo->table))
+			break ;
+		usleep(100);
+	}
 }
