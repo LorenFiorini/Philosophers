@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 07:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 16:57:42 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:30:32 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ int	ft_strlen(char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+long	ft_max_l(long a, long b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }
 
 long	get_time_ms(void)
