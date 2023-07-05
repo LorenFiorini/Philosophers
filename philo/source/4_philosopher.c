@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 04:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/08 07:03:53 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:55:49 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,20 @@ void	*philosopher(void *data)
 	if (philo->table->must_eat_cnt == 0)
 		return (NULL);
 	pthread_mutex_lock(&philo->meal_time_lock);
+	philo->last_meal = philo->table->start_time;
+	pthread_mutex_unlock(&philo->meal_time_lock);
+	sync_start(philo->table->start_time);
+	if (philo->table->time_to_die == 0)
+		return (NULL);
+	if (philo->table->num_philos == 1)
+		return (solo_routine(philo));
+	else if (philo->id % 2)
+		think_routine(philo);
+	while (still_alive(philo->table))
+	{
+		eat_routine(philo);
+		sleep_routine(philo);
+		think_routine(philo);
+	}
 	return (NULL);
 }

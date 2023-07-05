@@ -6,7 +6,7 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/06/08 07:00:22 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/07/05 17:01:46 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ FILES			= 1_main\
 				  4_philosopher\
 				  5_grim\
 				  exits\
+				  status\
 				  utils
 
 SRC_DIR			= ./source/

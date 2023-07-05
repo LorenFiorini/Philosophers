@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/08 06:59:50 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:57:50 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int		error_msg(t_table *table, char *str, int ret);
 // utils.c
 int		ft_strlen(char *s);
 long	get_time_ms(void);
+void	sync_start(long start_time);
 
 #endif
