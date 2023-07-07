@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/08 01:12:10 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:30:38 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_philo
 	long			fork[2];
 	long			last_meal;
 	pthread_mutex_t	meal_time_lock;
-	t_table	*table;
+	t_table			*table;
 }	t_philo;
 
 // 2_parse_args.c

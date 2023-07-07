@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 20:23:20 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/07 22:46:45 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:30:14 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	show_table(t_table *table, int show_philos)
 	printf("  philos:\n");
 	while (show_philos && i < table->num_philos)
 	{
-		//printf(" philos[%d]: %p\n", i, table->philos[i]);
 		show_philo(table->philos[i]);
 		i++;
 	}

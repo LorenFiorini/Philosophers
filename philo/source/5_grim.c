@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:54:04 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/08 01:07:19 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:32:09 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	set_sim_stop_flag(t_table *table, int state)
 	pthread_mutex_unlock(&table->stop_sim_lock);
 }
 
-static int kill_philo(t_philo *philo)
+static int	kill_philo(t_philo *philo)
 {
 	long	time;
 
@@ -77,7 +77,5 @@ void	*grim(void *data)
 			break ;
 		usleep(1000);
 	}
-	//while (!end_condition_reached(table))
-	//	usleep(1000);
 	return (NULL);
 }

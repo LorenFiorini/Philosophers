@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/08 01:17:56 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:32:17 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	start(t_table *table)
 	{
 		if (pthread_create(&table->grim, NULL,
 				&grim, table) != 0)
-		return (error_msg(table, "Error: Thread creation failed\n", 0));
+			return (error_msg(table, "Error: Thread creation failed\n", 0));
 	}
 	return (1);
 }

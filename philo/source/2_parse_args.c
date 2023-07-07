@@ -6,13 +6,13 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 05:22:01 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/07 23:58:19 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:30:52 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static long ft_isdigit(char c)
+static long	ft_isdigit(char c)
 {
 	return ('0' <= c && c <= '9');
 }
