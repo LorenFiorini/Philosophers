@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 04:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 18:52:31 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:24:52 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	*philosopher(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+	printf("philo %ld\n", philo->id);
 	if (philo->table->must_eat_cnt == 0)
 		return (NULL);
 	pthread_mutex_lock(&philo->meal_time_lock);

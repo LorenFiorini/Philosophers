@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:54:04 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/07 20:10:26 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:07:19 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	set_sim_stop_flag(t_table *table, int state)
 {
 	pthread_mutex_lock(&table->stop_sim_lock);
-	table->stop_sim = state;
+	table->stop_sim = (long) state;
 	pthread_mutex_unlock(&table->stop_sim_lock);
 }
 
@@ -36,7 +36,7 @@ static int kill_philo(t_philo *philo)
 static int	end_condition_reached(t_table *table)
 {
 	long	i;
-	int		all_ate_enough;
+	long	all_ate_enough;
 
 	i = 0;
 	all_ate_enough = 1;
@@ -44,7 +44,10 @@ static int	end_condition_reached(t_table *table)
 	{
 		pthread_mutex_lock(&table->philos[i]->meal_time_lock);
 		if (kill_philo(table->philos[i]))
+		{
+			pthread_mutex_unlock(&table->philos[i]->meal_time_lock);
 			return (1);
+		}
 		if (table->philos[i]->meals_eaten < table->must_eat_cnt)
 			all_ate_enough = 0;
 		pthread_mutex_unlock(&table->philos[i]->meal_time_lock);
@@ -63,11 +66,18 @@ void	*grim(void *data)
 	t_table	*table;
 
 	table = (t_table *)data;
+	printf("grim reaper started\n");
 	if (table->must_eat_cnt == 0)
 		return (NULL);
 	set_sim_stop_flag(table, 0);
 	sync_start(table->start_time);
-	while (!end_condition_reached(table))
+	while (1)
+	{
+		if (end_condition_reached(table))
+			break ;
 		usleep(1000);
+	}
+	//while (!end_condition_reached(table))
+	//	usleep(1000);
 	return (NULL);
 }
