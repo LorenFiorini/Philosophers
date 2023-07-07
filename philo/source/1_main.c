@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/07 23:36:10 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:00:57 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv)
 		return (1);
 	printf("<- Started\n");			// DEBUG
 	stop(table);
+	printf("<- Stopped\n");			// DEBUG
 	return (0);
 }
 

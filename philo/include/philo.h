@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/07 23:15:30 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:57:21 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		still_alive(t_table *table);
 void	write_status(t_philo *philo, int report, char *status);
 
 // utils.c
-int		ft_strlen(char *s);
+long	ft_strlen(char *s);
 long	ft_max_l(long a, long b);
 long	get_time_ms(void);
 void	sync_start(long start_time);

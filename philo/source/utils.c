@@ -6,15 +6,15 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 07:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 18:37:21 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:00:07 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_strlen(char *s)
+long	ft_strlen(char *s)
 {
-	int	i;
+	long	i;
 
 	i = 0;
 	while (s[i])
