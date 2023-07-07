@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/06/08 06:59:23 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/07 22:47:37 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@ int	main(int argc, char **argv)
 
 	if (!valid_args(argc, argv))
 		return (error_msg(NULL, STR_USAGE, 1));
+	printf("<- Valid args\n");		// DEBUG
 	table = malloc(sizeof(t_table));
 	if (!table)
 		return (error_msg(table, "Error: Malloc failed\n", 1));
 	parse_args(argc, argv, table);
+	printf("<- Parsed args\n");	// DEBUG
 	if (!init(table))
 		return (error_msg(table, "Error: Malloc failed\n", 1));
+	printf("<- Initialized\n");	// DEBUG
+	show_table(table, 1); 			// DEBUG
 	if (!start(table))
 		return (1);
+	printf("<- Started\n");		// DEBUG
 	stop(table);
 	return (0);
 }
@@ -38,6 +43,7 @@ static int	start(t_table *table)
 	long	i;
 
 	i = 0;
+	table->start_time = get_time_ms() + (table->num_philos * 20);
 	while (i < table->num_philos)
 	{
 		if (pthread_create(&table->philos[i]->thread, NULL,

@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 18:51:00 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:15:30 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,7 @@
 \tnumber_of_times_each_philosopher_must_eat: An integer between 0 \
 and 2147483647. (Optional)\n"
 
-typedef struct s_philo
-{
-	pthread_t		thread;
-	long			id;
-	long			meals_eaten;
-	long			fork[2];
-	long			last_meal;
-	pthread_mutex_t	meal_time_lock;
-	struct s_table	*table;
-}	t_philo;
+typedef struct s_philo	t_philo;
 
 typedef struct s_table
 {
@@ -57,6 +48,17 @@ typedef struct s_table
 	pthread_t		grim;
 }	t_table;
 
+typedef struct s_philo
+{
+	pthread_t		thread;
+	long			id;
+	long			meals_eaten;
+	long			fork[2];
+	long			last_meal;
+	pthread_mutex_t	meal_time_lock;
+	t_table	*table;
+}	t_philo;
+
 // 2_parse_args.c
 void	parse_args(int argc, char **argv, t_table *table);
 int		valid_args(int argc, char **argv);
@@ -69,6 +71,10 @@ void	*philosopher(void *data);
 
 // 5_grim.c
 void	*grim(void *data);
+
+// debug.c
+void	show_table(t_table *table, int show_philos);
+void	show_philo(t_philo *philo);
 
 // exits.c
 void	free_table(t_table *table);
