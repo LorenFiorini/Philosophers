@@ -6,11 +6,22 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 03:06:17 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/05 18:49:31 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:34:10 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	assign_forks(t_philo *philo)
+{
+	philo->fork[0] = philo->id;
+	philo->fork[1] = (philo->id + 1) % philo->table->num_philos;
+	if (philo->id % 2)
+	{
+		philo->fork[0] = (philo->id + 1) % philo->table->num_philos;
+		philo->fork[1] = philo->id;
+	}
+}
 
 static int	init_philosophers(t_table *table)
 {
@@ -30,8 +41,7 @@ static int	init_philosophers(t_table *table)
 		table->philos[i]->id = i;
 		table->philos[i]->meals_eaten = 0;
 		table->philos[i]->table = table;
-		table->philos[i]->fork[0] = i;
-		table->philos[i]->fork[1] = (i + 1) % table->num_philos;
+		assign_forks(table->philos[i]);
 		i++;
 	}
 	return (1);
@@ -63,7 +73,7 @@ int	init(t_table *table)
 	if (pthread_mutex_init(&table->write_lock, NULL) != 0
 		|| pthread_mutex_init(&table->stop_sim_lock, NULL) != 0)
 		return (error_msg(table, "Error: mutex init failed", 0));
-	table->start_time = get_time_ms();
+	table->start_time = 0;
 	table->stop_sim = 0;
 	return (1);
 }

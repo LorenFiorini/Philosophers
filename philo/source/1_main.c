@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/07 22:47:37 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:29:20 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	start(t_table *table)
 	long	i;
 
 	i = 0;
-	table->start_time = get_time_ms() + (table->num_philos * 20);
+	table->start_time = get_time_ms() + (long) (table->num_philos * 20);
 	while (i < table->num_philos)
 	{
 		if (pthread_create(&table->philos[i]->thread, NULL,
