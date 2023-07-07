@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/08 00:00:57 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:13:59 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (!init(table))
 		return (error_msg(table, "Error: Malloc failed\n", 1));
 	printf("<- Initialized\n");		// DEBUG
-	show_table(table, 1); 			// DEBUG
+	//show_table(table, 1); 			// DEBUG
 	if (!start(table))
 		return (1);
 	printf("<- Started\n");			// DEBUG
@@ -44,20 +44,21 @@ static int	start(t_table *table)
 	long	i;
 
 	i = 0;
-	table->start_time = get_time_ms() + (long) (table->num_philos * 20);
+	table->start_time = get_time_ms() + (table->num_philos * (long) 20);
+	printf("<- Start time: %ld\n", table->start_time);	// DEBUG
 	while (i < table->num_philos)
 	{
+		printf(" -> Creating thread %ld\n", i);	// DEBUG
 		if (pthread_create(&table->philos[i]->thread, NULL,
-				&philosopher, &table->philos[i]) != 0)
+				&philosopher, table->philos[i]) != 0)
 			return (error_msg(table, "Error: Thread creation failed\n", 0));
+		printf("<- Created thread %ld\n", i);	// DEBUG
 		i++;
 	}
-	if (table->num_philos > 1)
-	{
-		if (pthread_create(&table->grim, NULL,
-				&grim, table) != 0)
-			return (error_msg(table, "Error: Thread creation failed\n", 0));
-	}
+	if (table->num_philos > 1 &&
+		pthread_create(&table->grim, NULL, &grim, table) != 0)
+		return (error_msg(table, "Error: Thread creation failed\n", 0));
+	
 	return (1);
 }
 
