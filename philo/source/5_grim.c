@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:54:04 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/08 01:32:09 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/11 03:05:39 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	*grim(void *data)
 	t_table	*table;
 
 	table = (t_table *)data;
-	printf("grim reaper started\n");
 	if (table->must_eat_cnt == 0)
 		return (NULL);
 	set_sim_stop_flag(table, 0);
