@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/09 00:47:53 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:10:02 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <semaphore.h>
 # define MAX_PHILOSOPHERS 1000
 
 # define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
@@ -41,11 +44,17 @@ typedef struct s_table
 	long			must_eat_cnt;
 	long			start_time;
 	long			stop_sim;
+	long			philos_full_cnt;
+	pid_t			*pids;
 	t_philo			**philos;
-	pthread_mutex_t	*fork_locks;
-	pthread_mutex_t	write_lock;
-	pthread_mutex_t	stop_sim_lock;
-	pthread_t		grim;
+	t_philo			*this_philo;
+	pthread_t		gluttony_reaper;
+	pthread_t		famine_reaper;
+	sem_t			*sem_forks;
+	sem_t			*sem_write;
+	sem_t			*sem_philo_full;
+	sem_t			*sem_philo_dead;
+	sem_t			*sem_stop;
 }	t_table;
 
 typedef struct s_philo
@@ -55,7 +64,12 @@ typedef struct s_philo
 	long			meals_eaten;
 	long			fork[2];
 	long			last_meal;
-	pthread_mutex_t	meal_time_lock;
+	pthread_mutex_t	personal_grim_reaper;
+	sem_t			*sem_forks;
+	sem_t			*sem_write;
+	sem_t			*sem_philo_full;
+	sem_t			*sem_philo_dead;
+	sem_t			*sem_meal;
 	t_table			*table;
 }	t_philo;
 
