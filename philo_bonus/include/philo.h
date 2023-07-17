@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/13 18:10:02 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/17 19:56:55 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,22 @@ typedef struct s_philo
 	t_table			*table;
 }	t_philo;
 
+
+// 2_parse_args.c
+void	parse_args(int argc, char **argv, t_table *table);
+int		valid_args(int argc, char **argv);
+
+// 3_init.c
+int		init(t_table *table);
+
+
+// exits.c
+void	free_table(t_table *table);
+void	destroy_mutexes(t_table *table);
+int		error_msg(t_table *table, char *str, int ret);
+
+// status.c
+int		still_alive(t_table *table);
+void	write_status(t_philo *philo, int report, char *status);
 
 #endif
