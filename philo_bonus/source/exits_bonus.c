@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1_main.c                                           :+:      :+:    :+:   */
+/*   exits_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/09 00:48:15 by lfiorini         ###   ########.fr       */
+/*   Created: 2023/07/09 00:49:47 by lfiorini          #+#    #+#             */
+/*   Updated: 2023/07/17 20:42:42 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-int	main(int argc, char **argv)
+void	free_table(t_table *table)
 {
-	t_table	*table;
+	long	i;
 
-	if (!valid_args(argc, argv))
-		return (error_msg(NULL, STR_USAGE, 1));
-	table = malloc(sizeof(t_table));
 	if (!table)
-		return (error_msg(table, "Error: Malloc failed\n", 1));
+		return ;
+	if (table->fork_locks)
+		free(table->fork_locks);
+	if (table->philos)
+	{
+		i = 0;
+		while (i < table->num_philos)
+		{
+			if (table->philos[i])
+				free(table->philos[i]);
+			i++;
+		}
+		free(table->philos);
+	}
+	free(table);
+}
 
-	return (0);
+int	error_msg(t_table *table, char *str, int ret)
+{
+	free_table(table);
+	write(2, str, ft_strlen(str));
+	return (ret);
 }
