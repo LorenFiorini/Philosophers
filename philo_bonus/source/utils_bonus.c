@@ -6,21 +6,11 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:51 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/17 20:42:48 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:58:00 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-long	ft_strlen(char *s)
-{
-	long	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 long	ft_max_l(long a, long b)
 {

@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:47 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 13:37:22 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:02:39 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	sem_error_cleanup(t_table *table)
 	sem_close(table->sem_philo_dead);
 	sem_close(table->sem_stop);
 	unlink_global_sems();
-	return (error_msg(table, "Error: Could not create semaphore.\n", EXIT_FAILURE));
+	return (error_msg(table, "Error: Could not\
+	create semaphore.\n", EXIT_FAILURE));
 }
 
 int	table_cleanup(t_table *table, int exit_code)
@@ -66,9 +67,20 @@ int	table_cleanup(t_table *table, int exit_code)
 	return (exit_code);
 }
 
+static int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 int	error_msg(t_table *table, char *str, int ret)
 {
 	free_table(table);
 	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
 	return (ret);
 }
