@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 14:07:17 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:00:38 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <semaphore.h>
-# define MAX_PHILOSOPHERS 1000
+
+# ifndef MAX_PHILOSOPHERS
+#  define MAX_PHILOSOPHERS 1000
+# endif
 
 # define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
 <time_to_die> <time_to_eat> <time_to_sleep> \
@@ -32,6 +35,11 @@
 \ttime_to_sleep: An integer between 0 and 2147483647.\n\
 \tnumber_of_times_each_philosopher_must_eat: An integer between 0 \
 and 2147483647. (Optional)\n"
+
+# define THREAD_ERROR	"Error: Could not create thread.\n"
+# define FORK_ERROR		"Error: Could not fork child.\n"
+# define SEM_ERROR		"Error: Could not create semaphore.\n"
+# define MALLOC_ERROR	"Error: Could not allocate memory.\n"
 
 # define SEM_WRITE	"/philo_global_write"
 # define SEM_STOP	"/philo_global_stop"
@@ -82,6 +90,7 @@ typedef struct s_philo
 	sem_t			*sem_write;
 	sem_t			*sem_philo_full;
 	sem_t			*sem_philo_dead;
+	char			*sem_meal_name;
 	sem_t			*sem_meal;
 	t_table			*table;
 }	t_philo;

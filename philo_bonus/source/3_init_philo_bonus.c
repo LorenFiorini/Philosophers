@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:19 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 18:15:24 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:58:00 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,37 @@ static int	init_philosophers(t_table *table)
 
 static int	init_global_semaphores(t_table *table)
 {
+	unlink_global_semaphores(table);
 
+	table->sem_forks = sem_open(SEM_FORKS, O_CREAT,
+			S_IRUSR | S_IWUSR, table->num_philos);
+	table->sem_write = sem_open(SEM_WRITE, O_CREAT,
+			S_IRUSR | S_IWUSR, 1);
+	table->sem_philo_full = sem_open(SEM_FULL, O_CREAT,
+			S_IRUSR | S_IWUSR, table->num_philos);
+	table->sem_philo_dead = sem_open(SEM_DEAD, O_CREAT,
+			S_IRUSR | S_IWUSR, table->num_philos);
+	table->sem_stop = sem_open(SEM_STOP, O_CREAT,
+			S_IRUSR | S_IWUSR, 1);
+	if (table->sem_forks == SEM_FAILED
+		|| table->sem_write == SEM_FAILED
+		|| table->sem_philo_full == SEM_FAILED
+		|| table->sem_philo_dead == SEM_FAILED
+		|| table->sem_stop == SEM_FAILED)
+		return (sem_error_cleanup(table));
+	return (1);
 }
 
 int	init(t_table *table)
 {
-	if (!init_philosophers(table))
-		return (0);
 	if (!init_global_semaphores(table))
 		return (0);
-	// if (pthread_mutex_init(&table->write_lock, NULL) != 0
-	// 	|| pthread_mutex_init(&table->stop_sim_lock, NULL) != 0)
-	// 	return (error_msg(table, "Error: mutex init failed", 0));
+	if (!init_philosophers(table))
+		return (0);
+	table->pids = malloc(sizeof(pid_t) * table->num_philos);
+	if (!table->pids)
+		return (error_msg(table, MALLOC_ERROR, 0));
+	table->philos_full_cnt = 0;
 	table->start_time = 0;
 	table->stop_sim = 0;
 	return (1);

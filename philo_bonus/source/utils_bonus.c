@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:51 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 18:14:25 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:01:30 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ long	get_time_ms(void)
 	return (time_ms);
 }
 
-void	unlink_global_sems(void)
+void	unlink_global_semaphores(void)
 {
 	sem_unlink(SEM_FORKS);
 	sem_unlink(SEM_WRITE);
