@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 13:19:43 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:37:06 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,30 @@ typedef struct s_philo
 }	t_philo;
 
 
-// 2_parse_args.c
+// 2_parse_args_bonus.c
 void	parse_args(int argc, char **argv, t_table *table);
 int		valid_args(int argc, char **argv);
 
-// 3_init.c
+// 3_init_bonus.c
 int		init(t_table *table);
 
-
-// exits.c
+// exits_bonus.c
 void	free_table(t_table *table);
+int		sem_error_cleanup(t_table *table);
+int		table_cleanup(t_table *table, int exit_code);
 void	destroy_mutexes(t_table *table);
 int		error_msg(t_table *table, char *str, int ret);
 
-// status.c
+// status_bonus.c
 int		still_alive(t_table *table);
 void	write_status(t_philo *philo, int report, char *status);
+
+// utils_bonus.c
+long	ft_strlen(char *s);
+long	ft_max_l(long a, long b);
+long	get_time_ms(void);
+void	sync_start(long start_time);
+void	philo_sleep(t_philo *philo, long sleep_time);
+
 
 #endif
