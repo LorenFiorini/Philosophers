@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 18:00:38 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:19:15 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ typedef struct s_philo
 }	t_philo;
 
 // 1_main_bonus.c
+int		has_simulation_stopped(t_table *table);
 int		start_simulation(t_table *table);
+int		stop_simulation(t_table	*table);
 
 // 2_parse_args_bonus.c
 void	parse_args(int argc, char **argv, t_table *table);
@@ -105,11 +107,13 @@ int		valid_args(int argc, char **argv);
 // 3_init_bonus.c
 int		init(t_table *table);
 
+// 4_philo_bonus.c
+void	*philosopher(t_table *table);
+
 // exits_bonus.c
 void	free_table(t_table *table);
 int		sem_error_cleanup(t_table *table);
 int		table_cleanup(t_table *table, int exit_code);
-void	destroy_mutexes(t_table *table);
 int		error_msg(t_table *table, char *str, int ret);
 
 // status_bonus.c
@@ -117,8 +121,12 @@ int		still_alive(t_table *table);
 void	write_status(t_philo *philo, int report, char *status);
 
 // utils_bonus.c
+char	*ft_strcat(char	*dst, char *src);
+char	*ft_to_string(long n, long digit_count);
+long	ft_strlen(char *s);
 long	ft_max_l(long a, long b);
 long	get_time_ms(void);
+void	unlink_global_semaphores(void);
 void	sync_start(long start_time);
 void	philo_sleep(t_philo *philo, long sleep_time);
 
