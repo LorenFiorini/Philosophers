@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 16:26:53 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:13:00 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,41 @@ static int	start_grim_reaper_threads(t_table *table)
 	return (1);
 }
 
+static int	get_child_philo(t_table *table, pid_t *pid)
+{
+	int	philo_exit_code;
+	int	exit_code;
+
+	if (*pid && waitpid(*pid, &philo_exit_code, WNOHANG) != 0)
+	{
+		if (WIFEXITED(philo_exit_code))
+		{
+			exit_code = WEXITSTATUS(philo_exit_code);
+			if (exit_code == CHILD_EXIT_PHILO_DEAD)
+				return (kill_all_philos(table, 1));
+			if (exit_code == CHILD_EXIT_ERR_PTHREAD
+				|| exit_code == CHILD_EXIT_ERR_SEM)
+				return (kill_all_philos(table, -1));
+			if (exit_code == CHILD_EXIT_PHILO_FULL)
+			{
+				table->philos_full_cnt += 1;
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
+int	has_simulation_stopped(t_table *table)
+{
+	int	ret;
+
+	sem_wait(table->sem_stop);
+	ret = table->stop_sim;
+	sem_post(table->sem_stop);
+	return (ret);
+}
+
 int	start_simulation(t_table *table)
 {
 	int		i;
@@ -66,4 +101,31 @@ int	start_simulation(t_table *table)
 	if (!start_grim_reaper_threads(table))
 		return (0);
 	return (1);
+}
+
+int stop_simulation(t_table	*table)
+{
+	long	i;
+	int		exit_code;
+
+	sim_start_delay(table->start_time);
+	while (!has_simulation_stopped(table))
+	{
+		i = 0;
+		while (i < table->num_philos)
+		{
+			exit_code = get_child_philo(table, &table->pids[i]);
+			if (exit_code == 1 || exit_code == -1)
+			{
+				sem_wait(table->sem_stop);
+				table->stop_sim = 1;
+				sem_post(table->sem_philo_full);
+				sem_post(table->sem_philo_dead);
+				sem_post(table->sem_stop);
+				return (exit_code);
+			}
+			i++;
+		}
+	}
+	return (0);
 }
