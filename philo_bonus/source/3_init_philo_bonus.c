@@ -6,11 +6,37 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:19 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/17 20:41:53 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:15:24 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+static char	*set_sem_names(char *str, long id)
+{
+	long	i;
+	long	digit_count;
+	char	*sem_name;
+	char	*tmp;
+
+	digit_count = 0;
+	i = id;
+	while (i)
+	{
+		digit_count++;
+		i /= 10;
+	}
+	i = ft_strlen(str) + digit_count;
+	sem_name = malloc (sizeof * sem_name * (i + 1));
+	if (sem_name == NULL)
+		return (NULL);
+	sem_name[0] = '\0';
+	sem_name = ft_strcat(sem_name, str);
+	tmp = ft_to_string(id, digit_count);
+	sem_name = ft_strcat(sem_name, tmp);
+	free(tmp);
+	return (sem_name);
+}
 
 static int	init_philosophers(t_table *table)
 {
@@ -18,19 +44,21 @@ static int	init_philosophers(t_table *table)
 
 	table->philos = malloc(sizeof(t_philo) * table->num_philos);
 	if (!table->philos)
-		return (error_msg(table, "Error: malloc failed", 0));
+		return (error_msg(table, MALLOC_ERROR, 0));
 	i = 0;
 	while (i < table->num_philos)
 	{
 		table->philos[i] = malloc(sizeof(t_philo) * 1);
 		if (!table->philos[i])
-			return (error_msg(table, "Error: malloc failed", 0));
-		if (pthread_mutex_init(&table->philos[i]->meal_time_lock, NULL) != 0)
-			return (error_msg(table, "Error: mutex init failed", 0));
+			return (error_msg(table, MALLOC_ERROR, 0));
+		table->philos[i]->sem_meal_name = set_sem_names(SEM_MEAL, philo->id + 1);
+		if (table->philos[i]->sem_meal_name == NULL)
+			return (error_msg(table, MALLOC_ERROR, 0));
 		table->philos[i]->id = i;
 		table->philos[i]->meals_eaten = 0;
+		table->philos[i]->num_forks_held = 0;
+		table->philos[i]->ate_enough = 0;
 		table->philos[i]->table = table;
-		assign_forks(table->philos[i]);
 		i++;
 	}
 	return (1);
