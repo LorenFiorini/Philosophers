@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 22:13:00 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:22:00 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	start_simulation(t_table *table)
 	int		i;
 	pid_t	pid;
 
-	table->start_time = get_time_in_ms() + (table->num_philos * 20);
+	table->start_time = get_time_ms() + (table->num_philos * 20);
 	i = 0;
 	while (i < table->num_philos)
 	{
@@ -108,7 +108,7 @@ int stop_simulation(t_table	*table)
 	long	i;
 	int		exit_code;
 
-	sim_start_delay(table->start_time);
+	sync_start(table->start_time);
 	while (!has_simulation_stopped(table))
 	{
 		i = 0;

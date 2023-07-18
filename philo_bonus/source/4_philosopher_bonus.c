@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 22:45:20 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 13:17:31 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:22:00 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	eat_sleep_routine(t_philo *philo)
 	grab_fork(philo);
 	write_status(philo, 0, "is eating");
 	sem_wait(philo->sem_meal);
-	philo->last_meal = get_time_in_ms();
+	philo->last_meal = get_time_ms();
 	sem_post(philo->sem_meal);
 	philo_sleep(philo->table->time_to_eat);
 	write_status(philo, 0, "is sleeping");
@@ -37,7 +37,7 @@ static void	think_routine(t_philo *philo, int silent)
 
 	sem_wait(philo->sem_meal);
 	time_to_think = (philo->table->time_to_die
-			- (get_time_in_ms() - philo->last_meal)
+			- (get_time_ms() - philo->last_meal)
 			- philo->table->time_to_eat) / 2;
 	sem_post(philo->sem_meal);
 	if (time_to_think < 0)
@@ -58,7 +58,7 @@ static void	lone_philo_routine(t_philo *philo)
 	if (philo->sem_philo_full == SEM_FAILED)
 		exit(CHILD_EXIT_ERR_SEM);
 	sem_wait(philo->sem_philo_full);
-	sim_start_delay(philo->table->start_time);
+	sync_start(philo->table->start_time);
 	if (philo->table->must_eat_cnt == 0)
 	{
 		sem_post(philo->sem_philo_full);
@@ -103,6 +103,6 @@ void	philosopher(t_table *table)
 	sem_wait(philo->sem_meal);
 	philo->last_meal = philo->table->start_time;
 	sem_post(philo->sem_meal);
-	sim_start_delay(philo->table->start_time);
+	sync_start(philo->table->start_time);
 	philosopher_routine(philo);
 }
