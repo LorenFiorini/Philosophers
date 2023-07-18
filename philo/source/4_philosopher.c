@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 04:04:26 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/17 19:53:54 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/17 22:04:29 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	*philosopher(void *data)
 		return (NULL);
 	if (philo->table->num_philos == 1)
 		return (solo(philo));
-	else if (philo->id % 2)
-		think(philo, 0);
+	else if (philo->id % 2 || philo->table->num_philos == philo->id + 1)
+		think(philo, 1);
 	while (still_alive(philo->table))
 	{
 		eat_and_sleep(philo);
