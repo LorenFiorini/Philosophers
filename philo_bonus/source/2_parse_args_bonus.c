@@ -6,10 +6,9 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/17 20:42:30 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:53:54 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "philo_bonus.h"
 

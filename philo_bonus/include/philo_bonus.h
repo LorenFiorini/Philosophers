@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 13:37:06 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:07:17 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ and 2147483647. (Optional)\n"
 # define CHILD_EXIT_ERR_SEM		3
 # define CHILD_EXIT_PHILO_FULL	4
 # define CHILD_EXIT_PHILO_DEAD	5
-
 
 typedef struct s_philo	t_philo;
 
@@ -87,6 +86,8 @@ typedef struct s_philo
 	t_table			*table;
 }	t_philo;
 
+// 1_main_bonus.c
+int		start_simulation(t_table *table);
 
 // 2_parse_args_bonus.c
 void	parse_args(int argc, char **argv, t_table *table);
@@ -107,11 +108,9 @@ int		still_alive(t_table *table);
 void	write_status(t_philo *philo, int report, char *status);
 
 // utils_bonus.c
-long	ft_strlen(char *s);
 long	ft_max_l(long a, long b);
 long	get_time_ms(void);
 void	sync_start(long start_time);
 void	philo_sleep(t_philo *philo, long sleep_time);
-
 
 #endif
