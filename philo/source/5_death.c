@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5_grim.c                                           :+:      :+:    :+:   */
+/*   5_death.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:54:04 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/11 03:05:39 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:18:10 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	end_condition_reached(t_table *table)
 	return (0);
 }
 
-void	*grim(void *data)
+void	*death(void *data)
 {
 	t_table	*table;
 
