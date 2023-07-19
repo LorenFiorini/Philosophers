@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 22:19:15 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:52:51 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ and 2147483647. (Optional)\n"
 
 # define SEM_WRITE	"/philo_global_write"
 # define SEM_STOP	"/philo_global_stop"
-# define SEM_MEAL	"/philo_local_meal_"
 # define SEM_FULL	"/philo_global_full"
 # define SEM_FORKS	"/philo_global_forks"
 # define SEM_DEAD	"/philo_global_dead"
+# define SEM_MEAL	"/philo_local_meal"
 
-# define CHILD_EXIT_ERR_PTHREAD	2
-# define CHILD_EXIT_ERR_SEM		3
-# define CHILD_EXIT_PHILO_FULL	4
-# define CHILD_EXIT_PHILO_DEAD	5
+# define EXIT_ERR_PTHREAD	2
+# define EXIT_ERR_SEM		3
+# define EXIT_PHILO_FULL	4
+# define EXIT_PHILO_DEAD	5
 
 typedef struct s_philo	t_philo;
 
@@ -107,18 +107,25 @@ int		valid_args(int argc, char **argv);
 // 3_init_bonus.c
 int		init(t_table *table);
 
-// 4_philo_bonus.c
+// 4_philosopher_bonus.c
 void	*philosopher(t_table *table);
+
+// 5_death_bonus.c
+int		kill_all_philos(t_table *table, int ret);
+void	*global_gluttony_reaper(void *data);
+void	*global_famine_reaper(void *data);
+void	*personal_grim_reaper(void *data);
 
 // exits_bonus.c
 void	free_table(t_table *table);
 int		sem_error_cleanup(t_table *table);
 int		table_cleanup(t_table *table, int exit_code);
-int		error_msg(t_table *table, char *str, int ret);
+void	child_exit(t_table *table, int exit_code);
 
-// status_bonus.c
-int		still_alive(t_table *table);
-void	write_status(t_philo *philo, int report, char *status);
+// output_bonus.c
+void	msg(char *str, char *detail);
+int		error_msg(t_table *table, char *str, int ret);
+void	write_status(t_philo *philo, int death_report, char *status);
 
 // utils_bonus.c
 char	*ft_strcat(char	*dst, char *src);
@@ -129,5 +136,6 @@ long	get_time_ms(void);
 void	unlink_global_semaphores(void);
 void	sync_start(long start_time);
 void	philo_sleep(t_philo *philo, long sleep_time);
+void	grab_fork(t_philo *philo);
 
 #endif

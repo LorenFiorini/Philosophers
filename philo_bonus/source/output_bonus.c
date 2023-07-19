@@ -6,11 +6,26 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:46:44 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/19 22:49:54 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:52:35 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	msg(char *str, char *detail)
+{
+	if (!detail)
+		printf(str);
+	else
+		printf(str, detail);
+}
+
+int	error_msg(t_table *table, char *str, int ret)
+{
+	free_table(table);
+	write(2, str, ft_strlen(str));
+	return (ret);
+}
 
 void	write_status(t_philo *philo, int death_report, char *status)
 {

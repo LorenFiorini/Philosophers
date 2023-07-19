@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 22:22:00 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:06:25 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ static int	get_child_philo(t_table *table, pid_t *pid)
 		if (WIFEXITED(philo_exit_code))
 		{
 			exit_code = WEXITSTATUS(philo_exit_code);
-			if (exit_code == CHILD_EXIT_PHILO_DEAD)
+			if (exit_code == EXIT_PHILO_DEAD)
 				return (kill_all_philos(table, 1));
-			if (exit_code == CHILD_EXIT_ERR_PTHREAD
-				|| exit_code == CHILD_EXIT_ERR_SEM)
+			if (exit_code == EXIT_ERR_PTHREAD
+				|| exit_code == EXIT_ERR_SEM)
 				return (kill_all_philos(table, -1));
-			if (exit_code == CHILD_EXIT_PHILO_FULL)
+			if (exit_code == EXIT_PHILO_FULL)
 			{
 				table->philos_full_cnt += 1;
 				return (1);

@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 22:45:20 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 22:22:00 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:06:25 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ static void	lone_philo_routine(t_philo *philo)
 	philo->sem_philo_full = sem_open(SEM_FULL, O_CREAT,
 			S_IRUSR | S_IWUSR, philo->table->num_philos);
 	if (philo->sem_philo_full == SEM_FAILED)
-		exit(CHILD_EXIT_ERR_SEM);
+		exit(EXIT_ERR_SEM);
 	sem_wait(philo->sem_philo_full);
 	sync_start(philo->table->start_time);
 	if (philo->table->must_eat_cnt == 0)
 	{
 		sem_post(philo->sem_philo_full);
-		exit(CHILD_EXIT_PHILO_FULL);
+		exit(EXIT_PHILO_FULL);
 	}
 	print_status(philo, "has taken a fork");
 	philo_sleep(philo->table->time_to_die);
 	print_status(philo, "died");
 	free_table(philo->table);
-	exit(CHILD_EXIT_PHILO_DEAD);
+	exit(EXIT_PHILO_DEAD);
 }
 
 static void	philosopher_routine(t_philo *philo)
@@ -93,12 +93,12 @@ void	philosopher(t_table *table)
 	if (philo->table->must_eat_cnt == 0)
 	{
 		sem_post(philo->sem_philo_full);
-		child_exit(table, CHILD_EXIT_PHILO_FULL);
+		child_exit(table, EXIT_PHILO_FULL);
 	}
 	if (philo->table->time_to_die == 0)
 	{
 		sem_post(philo->sem_philo_dead);
-		child_exit(table, CHILD_EXIT_PHILO_DEAD);
+		child_exit(table, EXIT_PHILO_DEAD);
 	}
 	sem_wait(philo->sem_meal);
 	philo->last_meal = philo->table->start_time;

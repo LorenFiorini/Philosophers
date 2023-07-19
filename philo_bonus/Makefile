@@ -6,7 +6,7 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/07/17 20:41:08 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/07/20 00:40:14 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,10 @@ INC				= -I./include/
 FILES			= 1_main_bonus\
 				  2_parse_args_bonus\
 				  3_init_philo_bonus\
+				  4_philosopher_bonus\
+				  5_death_bonus\
 				  exits_bonus\
+				  output_bonus\
 				  utils_bonus
 
 SRC_DIR			= ./source/

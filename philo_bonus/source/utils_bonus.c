@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:51 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 19:01:30 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:43:30 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,16 @@ void	philo_sleep(t_philo *philo, long sleep_time)
 			break ;
 		usleep(100);
 	}
+}
+
+void	grab_fork(t_philo *philo)
+{
+	sem_wait(philo->sem_forks);
+	sem_wait(philo->sem_meal);
+	if (philo->num_forks_held <= 0)
+		write_status(philo, 0, "has taken a fork");
+	if (philo->num_forks_held == 1)
+		write_status(philo, 0, "has taken a fork");
+	philo->num_forks_held += 1;
+	sem_post(philo->sem_meal);
 }

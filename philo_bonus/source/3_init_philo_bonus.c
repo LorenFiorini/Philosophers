@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:19 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/18 19:58:00 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:33:37 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	init_philosophers(t_table *table)
 		table->philos[i] = malloc(sizeof(t_philo) * 1);
 		if (!table->philos[i])
 			return (error_msg(table, MALLOC_ERROR, 0));
-		table->philos[i]->sem_meal_name = set_sem_names(SEM_MEAL, philo->id + 1);
+		table->philos[i]->sem_meal_name = set_sem_names(SEM_MEAL, i + 1);
 		if (table->philos[i]->sem_meal_name == NULL)
 			return (error_msg(table, MALLOC_ERROR, 0));
 		table->philos[i]->id = i;
@@ -66,7 +66,7 @@ static int	init_philosophers(t_table *table)
 
 static int	init_global_semaphores(t_table *table)
 {
-	unlink_global_semaphores(table);
+	unlink_global_semaphores();
 
 	table->sem_forks = sem_open(SEM_FORKS, O_CREAT,
 			S_IRUSR | S_IWUSR, table->num_philos);
