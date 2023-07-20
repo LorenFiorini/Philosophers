@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:55:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:06:25 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:22:28 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,6 @@ static int	get_child_philo(t_table *table, pid_t *pid)
 	return (0);
 }
 
-int	has_simulation_stopped(t_table *table)
-{
-	int	ret;
-
-	sem_wait(table->sem_stop);
-	ret = table->stop_sim;
-	sem_post(table->sem_stop);
-	return (ret);
-}
-
 int	start_simulation(t_table *table)
 {
 	int		i;
@@ -103,7 +93,7 @@ int	start_simulation(t_table *table)
 	return (1);
 }
 
-int stop_simulation(t_table	*table)
+int	stop_simulation(t_table	*table)
 {
 	long	i;
 	int		exit_code;

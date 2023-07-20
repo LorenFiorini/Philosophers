@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 17:48:25 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:23:26 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ typedef struct s_philo
 }	t_philo;
 
 // 1_main_bonus.c
-int		has_simulation_stopped(t_table *table);
 int		start_simulation(t_table *table);
 int		stop_simulation(t_table	*table);
 
@@ -118,7 +117,7 @@ void	*global_famine_reaper(void *data);
 void	*personal_grim_reaper(void *data);
 
 // 6_ipc_bonus.c
-void    interprocess_communication(t_table *table, t_philo *philo);
+void	interprocess_communication(t_table *table, t_philo *philo);
 
 // exits_bonus.c
 void	free_table(t_table *table);
@@ -137,6 +136,9 @@ char	*ft_to_string(long n, long digit_count);
 long	ft_strlen(char *s);
 long	ft_max_l(long a, long b);
 long	get_time_ms(void);
+
+// utils2_bonus.c
+int		has_simulation_stopped(t_table *table);
 void	unlink_global_semaphores(void);
 void	sync_start(long start_time);
 void	philo_sleep(t_philo *philo, long sleep_time);

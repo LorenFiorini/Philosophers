@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:19 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:33:37 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:20:10 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static int	init_philosophers(t_table *table)
 static int	init_global_semaphores(t_table *table)
 {
 	unlink_global_semaphores();
-
 	table->sem_forks = sem_open(SEM_FORKS, O_CREAT,
 			S_IRUSR | S_IWUSR, table->num_philos);
 	table->sem_write = sem_open(SEM_WRITE, O_CREAT,
