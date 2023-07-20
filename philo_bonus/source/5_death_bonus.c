@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:28:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:55:23 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:46:38 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	end_condition_reached(t_table *table, t_philo *philo)
 {
 	sem_wait(philo->sem_meal);
-	if (get_time_in_ms() - philo->last_meal >= table->time_to_die)
+	if (get_time_ms() - philo->last_meal >= table->time_to_die)
 	{
 		write_status(philo, 1, "died");
 		sem_post(philo->sem_meal);
@@ -53,7 +53,7 @@ void	*global_gluttony_reaper(void *data)
 	if (table->must_eat_cnt < 0 || table->time_to_die == 0
 		|| table->num_philos == 1)
 		return (NULL);
-	sim_start_delay(table->start_time);
+	sync_start(table->start_time);
 	while (table->philos_full_cnt < table->num_philos)
 	{
 		if (has_simulation_stopped(table) == 1)
@@ -79,7 +79,7 @@ void	*global_famine_reaper(void *data)
 	table = (t_table *)data;
 	if (table->num_philos == 1)
 		return (NULL);
-	sim_start_delay(table->start_time);
+	sync_start(table->start_time);
 	if (has_simulation_stopped(table) == 1)
 		return (NULL);
 	sem_wait(table->sem_philo_dead);
@@ -102,7 +102,7 @@ void	*personal_grim_reaper(void *data)
 		return (NULL);
 	sem_wait(table->this_philo->sem_philo_dead);
 	sem_wait(table->this_philo->sem_philo_full);
-	sim_start_delay(table->start_time);
+	sync_start(table->start_time);
 	while (!end_condition_reached(table, table->this_philo))
 	{
 		usleep(1000);

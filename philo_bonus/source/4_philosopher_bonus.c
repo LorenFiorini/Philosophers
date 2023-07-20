@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 22:45:20 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:06:25 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:44:52 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	eat_sleep_routine(t_philo *philo)
 	sem_wait(philo->sem_meal);
 	philo->last_meal = get_time_ms();
 	sem_post(philo->sem_meal);
-	philo_sleep(philo->table->time_to_eat);
+	philo_sleep(philo, philo->table->time_to_eat);
 	write_status(philo, 0, "is sleeping");
 	sem_post(philo->sem_forks);
 	sem_post(philo->sem_forks);
@@ -28,7 +28,7 @@ static void	eat_sleep_routine(t_philo *philo)
 	philo->num_forks_held -= 2;
 	philo->meals_eaten += 1;
 	sem_post(philo->sem_meal);
-	philo_sleep(philo->table->time_to_sleep);
+	philo_sleep(philo, philo->table->time_to_sleep);
 }
 
 static void	think_routine(t_philo *philo, int silent)
@@ -48,7 +48,7 @@ static void	think_routine(t_philo *philo, int silent)
 		time_to_think = 200;
 	if (silent == 0)
 		write_status(philo, 0, "is thinking");
-	philo_sleep(time_to_think);
+	philo_sleep(philo, time_to_think);
 }
 
 static void	lone_philo_routine(t_philo *philo)
@@ -64,9 +64,9 @@ static void	lone_philo_routine(t_philo *philo)
 		sem_post(philo->sem_philo_full);
 		exit(EXIT_PHILO_FULL);
 	}
-	print_status(philo, "has taken a fork");
-	philo_sleep(philo->table->time_to_die);
-	print_status(philo, "died");
+	write_status(philo, 0, "has taken a fork");
+	philo_sleep(philo, philo->table->time_to_die);
+	write_status(philo, 1, "died");
 	free_table(philo->table);
 	exit(EXIT_PHILO_DEAD);
 }
@@ -89,7 +89,7 @@ void	philosopher(t_table *table)
 	philo = table->this_philo;
 	if (philo->table->num_philos == 1)
 		lone_philo_routine(philo);
-	init_philo_ipc(table, philo);
+	interprocess_communication(table, philo);
 	if (philo->table->must_eat_cnt == 0)
 	{
 		sem_post(philo->sem_philo_full);

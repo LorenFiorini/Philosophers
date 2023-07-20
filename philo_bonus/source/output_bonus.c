@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:46:44 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:52:35 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:50:08 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	msg(char *str, char *detail)
 {
 	if (!detail)
-		printf(str);
+		printf("%s", str);
 	else
-		printf(str, detail);
+		printf("%s\n%s", str, detail);
 }
 
 int	error_msg(t_table *table, char *str, int ret)

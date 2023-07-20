@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:51 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:43:30 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:53:38 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ void	philo_sleep(t_philo *philo, long sleep_time)
 	wake_up = get_time_ms() + sleep_time;
 	while (get_time_ms() < wake_up)
 	{
-		if (!still_alive(philo->table))
+		// if (!still_alive(philo->table))
+		// 	break ;
+		if (has_simulation_stopped(philo->table))
 			break ;
 		usleep(100);
 	}

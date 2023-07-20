@@ -6,13 +6,14 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:52:51 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:48:25 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
+# include <signal.h>
 # include <pthread.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -57,42 +58,42 @@ typedef struct s_philo	t_philo;
 
 typedef struct s_table
 {
-	long			num_philos;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	long			must_eat_cnt;
-	long			start_time;
-	long			stop_sim;
-	long			philos_full_cnt;
-	pid_t			*pids;
-	t_philo			**philos;
-	t_philo			*this_philo;
-	pthread_t		gluttony_reaper;
-	pthread_t		famine_reaper;
-	sem_t			*sem_forks;
-	sem_t			*sem_write;
-	sem_t			*sem_philo_full;
-	sem_t			*sem_philo_dead;
-	sem_t			*sem_stop;
+	long		num_philos;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		must_eat_cnt;
+	long		start_time;
+	long		stop_sim;
+	long		philos_full_cnt;
+	pid_t		*pids;
+	t_philo		**philos;
+	t_philo		*this_philo;
+	pthread_t	gluttony_reaper;
+	pthread_t	famine_reaper;
+	sem_t		*sem_forks;
+	sem_t		*sem_write;
+	sem_t		*sem_philo_full;
+	sem_t		*sem_philo_dead;
+	sem_t		*sem_stop;
 }	t_table;
 
 typedef struct s_philo
 {
-	pthread_t		thread;
-	long			id;
-	long			meals_eaten;
-	long			num_forks_held;
-	long			ate_enough;
-	long			last_meal;
-	pthread_mutex_t	personal_grim_reaper;
-	sem_t			*sem_forks;
-	sem_t			*sem_write;
-	sem_t			*sem_philo_full;
-	sem_t			*sem_philo_dead;
-	char			*sem_meal_name;
-	sem_t			*sem_meal;
-	t_table			*table;
+	pthread_t	thread;
+	long		id;
+	long		meals_eaten;
+	long		num_forks_held;
+	long		ate_enough;
+	long		last_meal;
+	pthread_t	personal_grim_reaper;
+	sem_t		*sem_forks;
+	sem_t		*sem_write;
+	sem_t		*sem_philo_full;
+	sem_t		*sem_philo_dead;
+	char		*sem_meal_name;
+	sem_t		*sem_meal;
+	t_table		*table;
 }	t_philo;
 
 // 1_main_bonus.c
@@ -108,13 +109,16 @@ int		valid_args(int argc, char **argv);
 int		init(t_table *table);
 
 // 4_philosopher_bonus.c
-void	*philosopher(t_table *table);
+void	philosopher(t_table *table);
 
 // 5_death_bonus.c
 int		kill_all_philos(t_table *table, int ret);
 void	*global_gluttony_reaper(void *data);
 void	*global_famine_reaper(void *data);
 void	*personal_grim_reaper(void *data);
+
+// 6_ipc_bonus.c
+void    interprocess_communication(t_table *table, t_philo *philo);
 
 // exits_bonus.c
 void	free_table(t_table *table);

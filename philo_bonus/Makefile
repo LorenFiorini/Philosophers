@@ -6,7 +6,7 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/07/20 00:40:14 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/07/20 17:54:30 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ FILES			= 1_main_bonus\
 				  3_init_philo_bonus\
 				  4_philosopher_bonus\
 				  5_death_bonus\
+				  6_ipc_bonus\
 				  exits_bonus\
 				  output_bonus\
 				  utils_bonus
