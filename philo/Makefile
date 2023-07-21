@@ -6,14 +6,14 @@
 #    By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 22:42:01 by lfiorini          #+#    #+#              #
-#    Updated: 2023/07/20 00:09:08 by lfiorini         ###   ########.fr        #
+#    Updated: 2023/07/21 02:59:19 by lfiorini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= philo
 
 CC				= cc
-CFLAGS			= -Werror -Wall -Wextra
+CFLAGS			= -Werror -Wall -Wextra -pthread -fsanitize=thread
 INC				= -I./include/
 
 FILES			= 1_main\
