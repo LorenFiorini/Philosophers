@@ -6,35 +6,15 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:28:09 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 17:46:38 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:31:32 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static int	end_condition_reached(t_table *table, t_philo *philo)
+long	kill_all_philos(t_table *table, long exit_code)
 {
-	sem_wait(philo->sem_meal);
-	if (get_time_ms() - philo->last_meal >= table->time_to_die)
-	{
-		write_status(philo, 1, "died");
-		sem_post(philo->sem_meal);
-		sem_post(table->this_philo->sem_philo_dead);
-		return (1);
-	}
-	if (table->must_eat_cnt != -1 && philo->ate_enough == 0
-		&& philo->meals_eaten >= (unsigned int)table->must_eat_cnt)
-	{
-		sem_post(philo->sem_philo_full);
-		philo->ate_enough = 1;
-	}
-	sem_post(philo->sem_meal);
-	return (0);
-}
-
-int	kill_all_philos(t_table *table, int ret)
-{
-	unsigned int	i;
+	long	i;
 
 	i = 0;
 	while (i < table->num_philos)
@@ -42,25 +22,25 @@ int	kill_all_philos(t_table *table, int ret)
 		kill(table->pids[i], SIGKILL);
 		i++;
 	}
-	return (ret);
+	return (exit_code);
 }
 
-void	*global_gluttony_reaper(void *data)
+void	*global_monitor_gluttony(void *data)
 {
 	t_table	*table;
 
 	table = (t_table *)data;
-	if (table->must_eat_cnt < 0 || table->time_to_die == 0
+	if (table->must_eat_count < 0 || table->time_to_die == 0
 		|| table->num_philos == 1)
 		return (NULL);
 	sync_start(table->start_time);
-	while (table->philos_full_cnt < table->num_philos)
+	while (table->philo_full_count < table->num_philos)
 	{
 		if (has_simulation_stopped(table) == 1)
 			return (NULL);
 		sem_wait(table->sem_philo_full);
 		if (has_simulation_stopped(table) == 0)
-			table->philos_full_cnt += 1;
+			table->philo_full_count += 1;
 		else
 			return (NULL);
 	}
@@ -72,7 +52,7 @@ void	*global_gluttony_reaper(void *data)
 	return (NULL);
 }
 
-void	*global_famine_reaper(void *data)
+void	*global_monitor_famine(void *data)
 {
 	t_table	*table;
 
@@ -93,12 +73,32 @@ void	*global_famine_reaper(void *data)
 	return (NULL);
 }
 
-void	*personal_grim_reaper(void *data)
+static long	end_condition_reached(t_table *table, t_philo *philo)
+{
+	sem_wait(philo->sem_meal);
+	if (get_time_ms() - philo->last_meal >= table->time_to_die)
+	{
+		write_status(philo, 1, DIED);
+		sem_post(table->this_philo->sem_philo_dead);
+		sem_post(philo->sem_meal);
+		return (1);
+	}
+	if (table->must_eat_count != -1 && philo->ate_enough == 0
+		&& philo->meals_eaten >= (long)table->must_eat_count)
+	{
+		sem_post(philo->sem_philo_full);
+		philo->ate_enough = 1;
+	}
+	sem_post(philo->sem_meal);
+	return (0);
+}
+
+void	*personal_death_monitor(void *data)
 {
 	t_table			*table;
 
 	table = (t_table *)data;
-	if (table->must_eat_cnt == 0)
+	if (table->must_eat_count == 0)
 		return (NULL);
 	sem_wait(table->this_philo->sem_philo_dead);
 	sem_wait(table->this_philo->sem_philo_full);

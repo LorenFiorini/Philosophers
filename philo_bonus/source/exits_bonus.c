@@ -6,80 +6,49 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:47 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 00:54:41 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:30:30 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	free_table(t_table *table)
+long	msg(char *str, char *detail, long exit_no)
 {
-	long	i;
-
-	if (!table)
-		return ;
-	if (table->philos != NULL)
-	{
-		i = 0;
-		while (i < table->num_philos)
-		{
-			if (table->philos[i] != NULL)
-			{
-				if (table->philos[i]->sem_meal)
-					free(table->philos[i]->sem_meal);
-				free(table->philos[i]);
-			}
-			i++;
-		}
-		free(table->philos);
-	}
-	if (table->pids)
-		free(table->pids);
-	free(table);
+	if (!detail)
+		printf(str, STR_PROG_NAME);
+	else
+		printf(str, STR_PROG_NAME, detail);
+	return (exit_no);
 }
 
-int	sem_error_cleanup(t_table *table)
-{
-	sem_close(table->sem_forks);
-	sem_close(table->sem_philo_dead);
-	sem_close(table->sem_philo_full);
-	sem_close(table->sem_stop);
-	sem_close(table->sem_write);
-	unlink_global_semaphores();
-	return (error_msg(table, "Error: Could not\
-	create semaphore.\n", EXIT_FAILURE));
-}
-
-int	table_cleanup(t_table *table, int ret)
+long	error_failure(char *str, char *details, t_table *table)
 {
 	if (table != NULL)
-	{
-		pthread_join(table->famine_reaper, NULL);
-		pthread_join(table->gluttony_reaper, NULL);
-		sem_close(table->sem_forks);
-		sem_close(table->sem_write);
-		sem_close(table->sem_philo_full);
-		sem_close(table->sem_philo_dead);
-		sem_close(table->sem_stop);
-		unlink_global_semaphores();
 		free_table(table);
-	}
-	return (ret);
+	return (msg(str, details, 0));
 }
 
-void	child_exit(t_table *table, int exit_code)
+void	*error_null(char *str, char *details, t_table *table)
+{
+	if (table != NULL)
+		free_table(table);
+	msg(str, details, EXIT_FAILURE);
+	return (NULL);
+}
+
+void	child_exit(t_table *table, long exit_code)
 {
 	sem_post(table->this_philo->sem_meal);
-	pthread_join(table->this_philo->personal_grim_reaper, NULL);
-	if (exit_code == EXIT_ERR_SEM)
-		error_msg(table, SEM_ERROR, 0);
-	if (exit_code == EXIT_ERR_PTHREAD)
-		error_msg(table, THREAD_ERROR, 0);
+	pthread_join(table->this_philo->personal_death_monitor, NULL);
+	if (exit_code == CHILD_EXIT_ERR_SEM)
+		msg(STR_ERR_SEM, NULL, 0);
+	if (exit_code == CHILD_EXIT_ERR_PTHREAD)
+		msg(STR_ERR_THREAD, NULL, 0);
 	sem_close(table->this_philo->sem_forks);
-	sem_close(table->this_philo->sem_meal);
-	sem_close(table->this_philo->sem_philo_dead);
 	sem_close(table->this_philo->sem_philo_full);
+	sem_close(table->this_philo->sem_philo_dead);
 	sem_close(table->this_philo->sem_write);
+	sem_close(table->this_philo->sem_meal);
 	free_table(table);
 	exit(exit_code);
 }

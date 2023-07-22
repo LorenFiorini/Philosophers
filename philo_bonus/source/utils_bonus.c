@@ -6,13 +6,23 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 00:49:51 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 22:22:18 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:30:11 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-char	*ft_strcat(char	*dst, char *src)
+long	ft_strlen(const char *str)
+{
+	long	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strcat(char	*dst, const char *src)
 {
 	long	i;
 	long	j;
@@ -30,49 +40,39 @@ char	*ft_strcat(char	*dst, char *src)
 	return (dst);
 }
 
-char	*ft_to_string(long n, long digit_count)
+char	*ft_ltoa(long num, long len)
 {
-	char	*str;
-	long	i;
+	char	*ret;
 
-	str = malloc(sizeof * str * (digit_count + 1));
-	if (str == NULL)
+	ret = malloc(sizeof * ret * (len + 1));
+	if (!ret)
 		return (NULL);
-	i = digit_count - 1;
-	while (i >= 0)
+	ret[len] = '\0';
+	len--;
+	while (num % 10)
 	{
-		str[i] = (n % 10) + '0';
-		n /= 10;
-		i--;
+		ret[len--] = (num % 10) + '0';
+		num /= 10;
 	}
-	str[digit_count] = '\0';
-	return (str);
+	return (ret);
 }
 
-long	ft_strlen(char *s)
+void	unlink_global_sems(void)
 {
-	long	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	sem_unlink(SEM_NAME_FORKS);
+	sem_unlink(SEM_NAME_WRITE);
+	sem_unlink(SEM_NAME_FULL);
+	sem_unlink(SEM_NAME_DEAD);
+	sem_unlink(SEM_NAME_STOP);
 }
 
-long	ft_max_l(long a, long b)
+long	start_grim_reaper_threads(t_table *table)
 {
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-long	get_time_ms(void)
-{
-	struct timeval	time;
-	long			time_ms;
-
-	gettimeofday(&time, NULL);
-	time_ms = time.tv_sec * 1000;
-	time_ms += time.tv_usec / 1000;
-	return (time_ms);
+	if (pthread_create(&table->gluttony_reaper, NULL,
+			&global_monitor_gluttony, table) != 0)
+		return (error_failure(STR_ERR_THREAD, NULL, table));
+	if (pthread_create(&table->famine_reaper, NULL,
+			&global_monitor_famine, table) != 0)
+		return (error_failure(STR_ERR_THREAD, NULL, table));
+	return (1);
 }

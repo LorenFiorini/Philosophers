@@ -6,53 +6,63 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 01:54:22 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/20 22:23:26 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:32:32 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-# include <signal.h>
+# include <fcntl.h>
+# include <limits.h>
 # include <pthread.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <sys/time.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
 # include <semaphore.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/time.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-# ifndef MAX_PHILOSOPHERS
-#  define MAX_PHILOSOPHERS 1000
+# ifndef MAX_PHILOS
+#  define MAX_PHILOS	200
 # endif
+# ifndef DEBUG_FORMATTING
+#  define DEBUG_FORMATTING 0
+# endif
+# define STR_MAX_PHILOS "200"
 
-# define STR_USAGE	"Usage: ./philo <number_of_philosophers> \
+# define NC		"\e[0m"
+# define RED	"\e[31m"
+# define GREEN	"\e[32m"
+# define PURPLE	"\e[35m"
+# define CYAN	"\e[36m"
+
+# define STR_PROG_NAME	"philo_bonus:"
+# define STR_USAGE	"%s usage: ./philo_bonus <number_of_philosophers> \
 <time_to_die> <time_to_eat> <time_to_sleep> \
-[number_of_times_each_philosopher_must_eat]\n\
-\tnumber_of_philosophers: An integer between 1 and 1024.\n\
-\ttime_to_die: An integer between 0 and 2147483647.\n\
-\ttime_to_eat: An integer between 0 and 2147483647.\n\
-\ttime_to_sleep: An integer between 0 and 2147483647.\n\
-\tnumber_of_times_each_philosopher_must_eat: An integer between 0 \
-and 2147483647. (Optional)\n"
+[number_of_times_each_philosopher_must_eat]\n"
+# define STR_ERR_INPUT_DIGIT	"%s invalid input: %s: \
+not a valid longeger between 0 and 2147483647.\n"
+# define STR_ERR_INPUT_POFLOW	"%s invalid input: \
+there must be between 1 and %s philosophers.\n"
+# define STR_ERR_THREAD	"%s error: Could not create thread.\n"
+# define STR_ERR_MALLOC	"%s error: Could not allocate memory.\n"
+# define STR_ERR_SEM	"%s error: Could not create semaphore.\n"
+# define STR_ERR_FORK	"%s error: Could not fork child.\n"
 
-# define THREAD_ERROR	"Error: Could not create thread.\n"
-# define FORK_ERROR		"Error: Could not fork child.\n"
-# define SEM_ERROR		"Error: Could not create semaphore.\n"
-# define MALLOC_ERROR	"Error: Could not allocate memory.\n"
+# define SEM_NAME_FORKS "/philo_global_forks"
+# define SEM_NAME_WRITE "/philo_global_write"
+# define SEM_NAME_FULL	"/philo_global_full"
+# define SEM_NAME_DEAD	"/philo_global_dead"
+# define SEM_NAME_STOP	"/philo_global_stop"
+# define SEM_NAME_MEAL	"/philo_local_meal_"
 
-# define SEM_WRITE	"/philo_global_write"
-# define SEM_STOP	"/philo_global_stop"
-# define SEM_FULL	"/philo_global_full"
-# define SEM_FORKS	"/philo_global_forks"
-# define SEM_DEAD	"/philo_global_dead"
-# define SEM_MEAL	"/philo_local_meal"
-
-# define EXIT_ERR_PTHREAD	2
-# define EXIT_ERR_SEM		3
-# define EXIT_PHILO_FULL	4
-# define EXIT_PHILO_DEAD	5
+# define CHILD_EXIT_ERR_PTHREAD	2
+# define CHILD_EXIT_ERR_SEM		3
+# define CHILD_EXIT_PHILO_FULL	4
+# define CHILD_EXIT_PHILO_DEAD	5
 
 typedef struct s_philo	t_philo;
 
@@ -62,86 +72,103 @@ typedef struct s_table
 	long		time_to_die;
 	long		time_to_eat;
 	long		time_to_sleep;
-	long		must_eat_cnt;
+	long		must_eat_count;
 	long		start_time;
 	long		stop_sim;
-	long		philos_full_cnt;
+	long		philo_full_count;
 	pid_t		*pids;
+	pthread_t	famine_reaper;
+	pthread_t	gluttony_reaper;
+	sem_t		*sem_forks;
+	sem_t		*sem_philo_dead;
+	sem_t		*sem_philo_full;
+	sem_t		*sem_stop;
+	sem_t		*sem_write;
 	t_philo		**philos;
 	t_philo		*this_philo;
-	pthread_t	gluttony_reaper;
-	pthread_t	famine_reaper;
-	sem_t		*sem_forks;
-	sem_t		*sem_write;
-	sem_t		*sem_philo_full;
-	sem_t		*sem_philo_dead;
-	sem_t		*sem_stop;
 }	t_table;
 
 typedef struct s_philo
 {
-	pthread_t	thread;
 	long		id;
 	long		meals_eaten;
 	long		num_forks_held;
 	long		ate_enough;
 	long		last_meal;
-	pthread_t	personal_grim_reaper;
-	sem_t		*sem_forks;
-	sem_t		*sem_write;
-	sem_t		*sem_philo_full;
-	sem_t		*sem_philo_dead;
 	char		*sem_meal_name;
+	sem_t		*sem_forks;
 	sem_t		*sem_meal;
+	sem_t		*sem_philo_dead;
+	sem_t		*sem_philo_full;
+	sem_t		*sem_write;
 	t_table		*table;
+	pthread_t	personal_death_monitor;
 }	t_philo;
 
+typedef enum e_status
+{
+	DIED = 0,
+	EATING = 1,
+	SLEEPING = 2,
+	THINKING = 3,
+	GOT_FORK_1 = 4,
+	GOT_FORK_2 = 5
+}	t_status;
+
 // 1_main_bonus.c
-int		start_simulation(t_table *table);
-int		stop_simulation(t_table	*table);
+long	has_simulation_stopped(t_table *table);
+long	start_simulation(t_table *table);
+long	get_child_philo(t_table *table, pid_t *pid);
+long	stop_simulation(t_table	*table);
 
 // 2_parse_args_bonus.c
-void	parse_args(int argc, char **argv, t_table *table);
-int		valid_args(int argc, char **argv);
+long	valid_args(long argc, char **argv);
+long	integer_atoi(char *str);
 
 // 3_init_bonus.c
-int		init(t_table *table);
+t_table	*init_table(long argc, char **argv, long i);
 
 // 4_philosopher_bonus.c
 void	philosopher(t_table *table);
 
 // 5_death_bonus.c
-int		kill_all_philos(t_table *table, int ret);
-void	*global_gluttony_reaper(void *data);
-void	*global_famine_reaper(void *data);
-void	*personal_grim_reaper(void *data);
+void	*global_monitor_gluttony(void *data);
+void	*global_monitor_famine(void *data);
+void	*personal_death_monitor(void *data);
+long	kill_all_philos(t_table *table, long exit_code);
 
 // 6_ipc_bonus.c
-void	interprocess_communication(t_table *table, t_philo *philo);
+void	init_philo_ipc(t_table *table, t_philo *philo);
 
 // exits_bonus.c
-void	free_table(t_table *table);
-int		sem_error_cleanup(t_table *table);
-int		table_cleanup(t_table *table, int exit_code);
-void	child_exit(t_table *table, int exit_code);
+void	child_exit(t_table *table, long exit_code);
+long	msg(char *str, char *detail, long exit_no);
+long	error_failure(char *str, char *details, t_table *table);
+void	*error_null(char *str, char *details, t_table *table);
 
 // output_bonus.c
-void	msg(char *str, char *detail);
-int		error_msg(t_table *table, char *str, int ret);
-void	write_status(t_philo *philo, int death_report, char *status);
+void	write_status(t_philo *philo, long reaper, t_status status);
+void	print_status(t_philo *philo, char *str);
+void	print_status_debug(t_philo *philo, char *color, char *str,
+			t_status status);
+void	write_outcome(t_table *table);
+
+//	time.c
+long	get_time_ms(void);
+void	philo_sleep(long sleep_time);
+void	sync_start(long start_time);
 
 // utils_bonus.c
-char	*ft_strcat(char	*dst, char *src);
-char	*ft_to_string(long n, long digit_count);
-long	ft_strlen(char *s);
-long	ft_max_l(long a, long b);
-long	get_time_ms(void);
+char	*ft_ltoa(long num, long len);
+char	*ft_strcat(char	*dst, const char *src);
+long	ft_strlen(const char *str);
+void	unlink_global_sems(void);
+long	start_grim_reaper_threads(t_table *table);
 
 // utils2_bonus.c
-int		has_simulation_stopped(t_table *table);
-void	unlink_global_semaphores(void);
-void	sync_start(long start_time);
-void	philo_sleep(t_philo *philo, long sleep_time);
 void	grab_fork(t_philo *philo);
+void	*free_table(t_table *table);
+long	sem_error_cleanup(t_table *table);
+long	table_cleanup(t_table *table, long exit_code);
 
 #endif
