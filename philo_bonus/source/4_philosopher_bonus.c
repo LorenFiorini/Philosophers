@@ -6,7 +6,7 @@
 /*   By: lfiorini <lfiorini@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 22:45:20 by lfiorini          #+#    #+#             */
-/*   Updated: 2023/07/22 18:31:32 by lfiorini         ###   ########.fr       */
+/*   Updated: 2023/07/23 00:37:10 by lfiorini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	think_routine(t_philo *philo, long silent)
 	philo_sleep(time_to_think);
 }
 
-static void	lone_philo_routine(t_philo *philo)
+static void	solo_routine(t_philo *philo)
 {
 	philo->sem_philo_full = sem_open(SEM_NAME_FULL, O_CREAT,
 			S_IRUSR | S_IWUSR, philo->table->num_philos);
@@ -80,7 +80,7 @@ static void	lone_philo_routine(t_philo *philo)
 static void	philosopher_routine(t_philo *philo)
 {
 	if (philo->id % 2)
-		think_routine(philo, 1);
+		think_routine(philo, 0);
 	while (1)
 	{
 		eat_sleep_routine(philo);
@@ -94,7 +94,7 @@ void	philosopher(t_table *table)
 
 	philo = table->this_philo;
 	if (philo->table->num_philos == 1)
-		lone_philo_routine(philo);
+		solo_routine(philo);
 	init_philo_ipc(table, philo);
 	if (philo->table->must_eat_count == 0)
 	{
